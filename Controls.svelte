@@ -19,6 +19,8 @@
 
   let delete_node;
   let delete_link;
+
+  let inverted = false;
 </script>
 
 <h1>Pagerank simulator</h1>
@@ -102,17 +104,57 @@
   <input type="submit" value="Delete link" disabled={!delete_link} />
 </form>
 <hr />
-<ul>
-  {#each nodes as node (node)}
-    <li>
-      <p>{graph.getNodeAttribute(node, "label")}</p>
-      <ul>
-        {#each graph.outEdges(node) as edge (edge)}
-          <li>
-            {graph.getNodeAttribute(graph.target(edge), "label")} ({edge})
-          </li>
-        {/each}
-      </ul>
-    </li>
-  {/each}
-</ul>
+<p>Currently showing: {#if !inverted}links from node{:else}links to node{/if}. <button on:click={() => inverted = !inverted}>Invert?</button></p>
+{#if !inverted}
+  <ul>
+    {#each nodes as node (node)}
+      <li>
+        <p>
+          "{graph.getNodeAttribute(node, "label")}"
+          <span class="score"
+            >{graph.getNodeAttribute(node, "score").toFixed(4)}</span
+          >
+        </p>
+        <ul>
+          {#each graph.outEdges(node) as edge (edge)}
+            <li>
+              "{graph.getNodeAttribute(graph.target(edge), "label")}" ({edge})
+              <span class="score"
+                >{graph.getEdgeAttribute(edge, "score").toFixed(4)}</span
+              >
+            </li>
+          {/each}
+        </ul>
+      </li>
+    {/each}
+  </ul>
+{:else}
+  <ul>
+    {#each nodes as node (node)}
+      <li>
+        <p>
+          "{graph.getNodeAttribute(node, "label")}"
+          <span class="score"
+            >{graph.getNodeAttribute(node, "score").toFixed(4)}</span
+          >
+        </p>
+        <ul>
+          {#each graph.inEdges(node) as edge (edge)}
+            <li>
+              "{graph.getNodeAttribute(graph.source(edge), "label")}" ({edge})
+              <span class="score"
+                >{graph.getEdgeAttribute(edge, "score").toFixed(4)}</span
+              >
+            </li>
+          {/each}
+        </ul>
+      </li>
+    {/each}
+  </ul>
+{/if}
+
+<style>
+  .score {
+    color: #666;
+  }
+</style>
