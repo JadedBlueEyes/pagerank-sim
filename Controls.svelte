@@ -1,5 +1,7 @@
 <script>
   import Graph from "graphology";
+  import chroma from "chroma-js";
+
   /**
    * @type Graph
    */
@@ -33,7 +35,11 @@
 <h2>Add node:</h2>
 <form
   on:submit|preventDefault={() =>
-    graph.addNode(Math.random(), { label: node_label })}
+    graph.addNode(Math.random(), {
+      label: node_label, 
+      score: 1,
+      color: chroma.random().darken(1).hex(),
+    })}
 >
   <label for="node_label">Node label:</label>
   <input type="text" name="node_label" bind:value={node_label} />
