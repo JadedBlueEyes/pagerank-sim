@@ -65,7 +65,10 @@
 </form>
 
 <h2>Add link:</h2>
-<form on:submit|preventDefault={() => graph.addDirectedEdge(source, target)}>
+<form on:submit|preventDefault={() => graph.addDirectedEdge(source, target, {
+      type: "arrow",
+      color: "#333"
+    })}>
   <label for="source">Source: </label>
   <select name="source" bind:value={source}>
     {#each nodes as node (node)}
