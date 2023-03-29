@@ -25,11 +25,21 @@ export function rankEdges (graph) {
 export function rankNodes (graph, dampening) {
     dampening = dampening ?? defaultDampening
     graph.nodes().forEach((node) => {
-        let score = 1 - dampening
+        let score = 0
         graph.inEdges(node).forEach((edge) => {
             let value = graph.getEdgeAttribute(edge, "score")
-            score = score + (dampening * value)
+            score = score + value
         })
+        score = (1 - dampening) + dampening * score
+        graph.setNodeAttribute(node, "score", score)
+        graph.setNodeAttribute(node, "size", score * 25)
+    })
+}
+
+export function resetRanking (graph, dampening) {
+    dampening = dampening ?? defaultDampening
+    graph.nodes().forEach((node) => {
+        let score = 1
         graph.setNodeAttribute(node, "score", score)
         graph.setNodeAttribute(node, "size", score * 25)
     })
