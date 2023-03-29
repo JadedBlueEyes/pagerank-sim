@@ -36,10 +36,9 @@ export function rankNodes (graph, dampening) {
     })
 }
 
-export function resetRanking (graph, dampening) {
-    dampening = dampening ?? defaultDampening
+export function resetRanking (graph) {
+    let score = 1
     graph.nodes().forEach((node) => {
-        let score = 1
         graph.setNodeAttribute(node, "score", score)
         graph.setNodeAttribute(node, "size", score * 25)
     })
