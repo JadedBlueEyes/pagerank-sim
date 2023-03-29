@@ -1,7 +1,7 @@
 <script>
   import Graph from "graphology";
   import chroma from "chroma-js";
-
+  import { resetRanking } from "./rank"
   /**
    * @type Graph
    */
@@ -31,7 +31,7 @@
   <input type="checkbox" bind:checked={$updating} />
   Updating?
 </label>
-
+<button on:click={()=>resetRanking(graph)}>Reset scores</button>
 <h2>Add node:</h2>
 <form
   on:submit|preventDefault={() =>
