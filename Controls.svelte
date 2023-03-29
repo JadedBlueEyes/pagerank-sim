@@ -39,6 +39,7 @@
       label: node_label, 
       score: 1,
       color: chroma.random().darken(1).hex(),
+      x: Math.random(), y: Math.random()
     })}
 >
   <label for="node_label">Node label:</label>
